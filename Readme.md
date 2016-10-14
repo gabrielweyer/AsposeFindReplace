@@ -23,7 +23,7 @@ Evaluation Only. Created with Aspose.Words. Copyright 2003-2016 Aspose Pty Ltd.
 
 ```
 
-Notice that the `ClientDearName` MERGEFIELD is in front of `Dear` wheras the placeholder `~FieldName~` was behind `Dear `.
+Notice that the `ClientDearName` MERGEFIELD is in front of `Dear` whereas the placeholder `~FieldName~` was behind `Dear `.
 
 **Note**: I'm actually working on a more complex template but all the other placeholders are being replaced correctly.
 

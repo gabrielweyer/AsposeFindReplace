@@ -8,7 +8,7 @@ namespace Runner
     {
         static void Main(string[] args)
         {
-            const string fileName = "repro.docx";
+            const string fileName = "revert-and-two-matches-same-line.docx";
 
             var assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
             var inputPath = new Uri(Path.Combine(assemblyFolder, "template", fileName)).LocalPath;

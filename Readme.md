@@ -1,6 +1,6 @@
 # Find and replace sometimes modifies the order of the text
 
-I'm trying to replace placeholders such as `~FieldName~` by MERGEFIELDs so that we can leverage the MailMerge feature.
+I'm trying to replace placeholders such as `~FieldName~` by MERGEFIELDs so that I can leverage the MailMerge feature. [Aspose's support][aspose-support] provided me with the right way of doing it and I updated this repository accordingly. If I find other issues in complex templates I'll update this repository again.
 
 I've created a template with the following content:
 
@@ -8,7 +8,7 @@ I've created a template with the following content:
 
 Dear ~ClientDearName~,
 
-
+~HelloOne~ ~HelloTwo~
 
 ```
 
@@ -17,15 +17,13 @@ After running my code I get
 ```txt
 Evaluation Only. Created with Aspose.Words. Copyright 2003-2016 Aspose Pty Ltd.
 
-«ClientDearName»Dear ,
+Dear «ClientDearName»,
 
-
+«HelloOne» «HelloTwo»
 
 ```
 
-Notice that the `ClientDearName` MERGEFIELD is in front of `Dear` whereas the placeholder `~FieldName~` was behind `Dear `.
-
-**Note**: I'm actually working on a more complex template but all the other placeholders are being replaced correctly.
+Which is the expected behavior.
 
 ## Configuration
 
@@ -38,42 +36,18 @@ Notice that the `ClientDearName` MERGEFIELD is in front of `Dear` whereas the pl
 - `Aspose.Words.dll` version `16.10.0.0` (trial version)
 - .NET 4.5
 
+## Running the code
+
+Open the solution in Visual Studio, press F5. The output document will be written to `$(TargetDir) of the Runner project\template`. The template will also be written to the same directory.
+
 ## Code
 
-The code is located in the `MergeFieldMigrator` class.
-
-```csharp
-public static void Migrate(string inputPath, string outputPath)
-{
-    var document = new Document(inputPath);
-
-    var mergeFieldReplacer = new MergeFieldReplacer();
-    var options = new FindReplaceOptions
-    {
-        ReplacingCallback = mergeFieldReplacer
-    };
-
-    document.Range.Replace(new Regex("~[A-Za-z0-9]+~"), string.Empty, options);
-
-    document.Save(outputPath, SaveFormat.Docx);
-}
-
-private class MergeFieldReplacer : IReplacingCallback
-{
-    public ReplaceAction Replacing(ReplacingArgs args)
-    {
-        var mergeFieldName = args.Match.ToString().Replace("~", "");
-
-        var builder = new DocumentBuilder((Document)args.MatchNode.Document);
-
-        builder.MoveTo(args.MatchNode);
-        builder.InsertField(string.Format("MERGEFIELD {0} \\* MERGEFORMAT", mergeFieldName));
-
-        return ReplaceAction.Replace;
-    }
-}
-```
+The code is located in the [MergeFieldMigrator][code] class.
 
 ## Sample document
 
-The issue can be reproduced by using the document located here: `Runner\template\repro.docx`
+The issue can be reproduced by using [this document][document].
+
+[code]: Runner/MergeFieldMigrator.cs
+[document]: Runner/template/revert-and-two-matches-same-line.docx
+[aspose-support]: https://www.aspose.com/community/forums/thread/795097.aspx

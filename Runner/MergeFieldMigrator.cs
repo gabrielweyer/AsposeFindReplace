@@ -14,7 +14,8 @@ namespace Runner
             var mergeFieldReplacer = new MergeFieldReplacer();
             var options = new FindReplaceOptions
             {
-                ReplacingCallback = mergeFieldReplacer
+                ReplacingCallback = mergeFieldReplacer,
+                Direction = FindReplaceDirection.Backward
             };
 
             document.Range.Replace(new Regex("~[A-Za-z0-9]+~"), string.Empty, options);
